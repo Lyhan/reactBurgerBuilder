@@ -1,11 +1,11 @@
 .SideDrawer {
-    position:fixed;
-    width:280px;
+    position: fixed;
+    width: 280px;
     max-width: 80%;
-    height:100%;
-    left:0;
-    top:0;
-    z-index:200;
+    height: 100%;
+    left: 0;
+    top: 0;
+    z-index: 200;
     background-color: white;
     padding: 30px 16px;
     box-sizing: border-box;
@@ -17,7 +17,7 @@
     margin-border: 32px;
 }
 
-@media (min-width:500px) {
+@media (min-width: 500px) {
     .SideDrawer {
         display: none;
     }
@@ -29,4 +29,5 @@
 
 
 .Close {
-    transform: translateX(-100%)}
+    transform: translateX(-100%)
+}

@@ -1,14 +1,14 @@
 import React, {useState} from 'react';
-import Aux from '../../hoc/Aux';
+import Aux from '../Aux/Aux';
 import classes from './Layout.css'
-import Toolbar from '../Navigation/Toolbar/Toolbar';
-import SideDrawer from "../Navigation/SideDrawer/SideDrawer";
+import Toolbar from '../../components/Navigation/Toolbar/Toolbar';
+import SideDrawer from "../../components/Navigation/SideDrawer/SideDrawer";
 
-const Layout = (props)=>{
-    const [showSideDrawer,setShowSideDrawer] = useState(false)
+const Layout = (props) => {
+    const [showSideDrawer, setShowSideDrawer] = useState(false)
 
-    const sideDrawerClosedHandler = () =>{
-        setShowSideDrawer( false);
+    const sideDrawerClosedHandler = () => {
+        setShowSideDrawer(false);
     }
     const sideDrawerToggleHandler = () => {
         setShowSideDrawer(!showSideDrawer);
@@ -16,7 +16,7 @@ const Layout = (props)=>{
 
     return (
         <Aux>
-            <Toolbar openSideDrawer={sideDrawerToggleHandler} />
+            <Toolbar openSideDrawer={sideDrawerToggleHandler}/>
             <SideDrawer
                 open={showSideDrawer}
                 close={sideDrawerClosedHandler}/>

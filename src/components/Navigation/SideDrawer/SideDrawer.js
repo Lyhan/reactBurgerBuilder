@@ -4,13 +4,13 @@ import PropTypes from 'prop-types';
 import Logo from '../../Logo/Logo';
 import NavigationItems from '../NavigationItems/NavigationItems';
 import Backdrop from '../../UI/Backdrop/Backdrop';
-import Aux from '../../../hoc/Aux'
+import Aux from '../../../hoc/Aux/Aux'
 
 import classes from './SideDrawer.css'
 
 class SideDrawer extends Component {
-    render(){
-        let attachedClasses = [ classes.SideDrawer]
+    render() {
+        let attachedClasses = [classes.SideDrawer]
         this.props.open ? attachedClasses.push(classes.Open) : attachedClasses.push(classes.Close)
         return (
             <Aux>
@@ -27,6 +27,7 @@ class SideDrawer extends Component {
         );
     }
 }
+
 /*
 const SideDrawer = (props) => {
     let attachedClasses = [ classes.SideDrawer]
