@@ -16,17 +16,19 @@ const withErrorHandler = (WrappedComponent, axios) => {
             })
         }
 
-        handleError(error){
-            this.setState({error:error || null});
+        state = {error: false}
+
+        handleError(error) {
+            this.setState({error: error || false});
         }
 
-        state = {error: null}
+       /*
+        // The code added here will run after all children components are rendered
+        // If children have error, no error will be handled because axios.interceptors
+        // will not be set at the time the error occurs.
+        // To avoid this use "componentWillMount" (Deprecated) or class constructor
 
         componentDidMount() {
-            // The code added here will run after all children components are rendered
-            // If children have error, no error will be handled because axios.interceptors
-            // will not be set at the time the error occurs.
-            /*
             axios.interceptors.request.use(req => {
                 this.handleError();
                 return req;
@@ -34,18 +36,20 @@ const withErrorHandler = (WrappedComponent, axios) => {
             axios.interceptors.response.use(res => res, error => {
                 this.handleError(error);
             })
-             */
-            // To avoid this use "componentWillMount" (Deprecated) or class constructor
 
         }
-        errorConfirmHandler = ()=> {
-        this.setState({error:null})
+
+        */
+
+
+        errorConfirmHandler = () => {
+            this.setState({error: null})
         }
 
         render() {
             return (
                 <Aux>
-                    <Modal show={this.state.error} modalClose={this.errorConfirmHandler}>
+                    <Modal show={Boolean(this.state.error)} modalClose={this.errorConfirmHandler}>
                         {this.state.error ? this.state.error.message : null}
                     </Modal>
                     <WrappedComponent {...this.props}/>
