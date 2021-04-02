@@ -7,11 +7,11 @@ const withErrorHandler = (WrappedComponent, axios) => {
     return class extends Component {
         constructor(props) {
             super(props);
-            axios.interceptors.request.use(req => {
+            this.state.reqInterceptor = axios.interceptors.request.use(req => {
                 this.handleError();
                 return req;
             })
-            axios.interceptors.response.use(res => res, error => {
+            this.state.resInterceptor = axios.interceptors.response.use(res => res, error => {
                 this.handleError(error);
             })
         }
@@ -22,24 +22,29 @@ const withErrorHandler = (WrappedComponent, axios) => {
             this.setState({error: error || false});
         }
 
-       /*
-        // The code added here will run after all children components are rendered
-        // If children have error, no error will be handled because axios.interceptors
-        // will not be set at the time the error occurs.
-        // To avoid this use "componentWillMount" (Deprecated) or class constructor
-
-        componentDidMount() {
-            axios.interceptors.request.use(req => {
-                this.handleError();
-                return req;
-            })
-            axios.interceptors.response.use(res => res, error => {
-                this.handleError(error);
-            })
-
+        componentWillUnmount() {
+            axios.interceptors.request.eject(this.state.reqInterceptor)
+            axios.interceptors.response.eject(this.state.resInterceptor)
         }
 
-        */
+        /*
+         // The code added here will run after all children components are rendered
+         // If children have error, no error will be handled because axios.interceptors
+         // will not be set at the time the error occurs.
+         // To avoid this use "componentWillMount" (Deprecated) or class constructor
+
+         componentDidMount() {
+             axios.interceptors.request.use(req => {
+                 this.handleError();
+                 return req;
+             })
+             axios.interceptors.response.use(res => res, error => {
+                 this.handleError(error);
+             })
+
+         }
+
+         */
 
 
         errorConfirmHandler = () => {
