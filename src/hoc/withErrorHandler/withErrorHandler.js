@@ -5,18 +5,38 @@ import Aux from "../Aux/Aux";
 
 const withErrorHandler = (WrappedComponent, axios) => {
     return class extends Component {
-        state = {
-            error: null
-        }
-
-        componentDidMount() {
+        constructor(props) {
+            super(props);
             axios.interceptors.request.use(req => {
-                this.setState({error: null});
+                this.handleError();
                 return req;
             })
             axios.interceptors.response.use(res => res, error => {
-                this.setState({error: error});
+                this.handleError(error);
             })
+        }
+
+        handleError(error){
+            this.setState({error:error || null});
+        }
+
+        state = {error: null}
+
+        componentDidMount() {
+            // The code added here will run after all children components are rendered
+            // If children have error, no error will be handled because axios.interceptors
+            // will not be set at the time the error occurs.
+            /*
+            axios.interceptors.request.use(req => {
+                this.handleError();
+                return req;
+            })
+            axios.interceptors.response.use(res => res, error => {
+                this.handleError(error);
+            })
+             */
+            // To avoid this use "componentWillMount" (Deprecated) or class constructor
+
         }
         errorConfirmHandler = ()=> {
         this.setState({error:null})
