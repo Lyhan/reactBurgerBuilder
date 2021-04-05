@@ -121,8 +121,8 @@ class BurgerBuilder extends Component {
         axios.get('/ingredients.json')
             .then(response => {
                 this.setState({ingredients: response.data});
-            }).catch(error=>{
-                this.setState({error:true});
+            }).catch(error => {
+            this.setState({error: true});
         });
     }
 
@@ -162,31 +162,19 @@ class BurgerBuilder extends Component {
     }
 
     purchaseContinueHandler = () => {
-        //alert("Continue purchase request");
-        this.setState({loading: true})
-        const order = {
-            ingredients: this.state.ingredients,
-            price: this.state.totalPrice,
-            customer: {
-                name: 'jose',
-                address: {
-                    street: 'testStreet',
-                    zipCode: 12341,
-                    country: 'Germany'
-                },
-                email: 'test@test.com',
-                deliveryMethod: 'fastest'
-            }
+        const queryParams = [];
+        for (let i in this.state.ingredients){
+            queryParams.push(encodeURIComponent(i) + '=' + encodeURIComponent(this.state.ingredients[i]));
         }
-        axios.post('/orders.json', order)
-            .then(response => {
-                this.setState({loading: false, purchasing: false})
-                console.log(response)
-            })
-            .catch(error => {
-                this.setState({loading: false, purchasing: false})
-                console.log(error)
-            });
+        queryParams.push('price=' + this.state.totalPrice);
+        const queryString = queryParams.join('&');
+        this.props.history.push({
+            pathname: '/checkout',
+            // state: {order}
+            search: '?' + queryString
+
+        });
+
     }
 
     render() {
@@ -196,7 +184,7 @@ class BurgerBuilder extends Component {
         }
 
         let orderSummary = null;
-        let burger = this.state.error ? <p style={{textAlign:'center'}}>Ingredients can not be loaded</p> : <Spinner/>;
+        let burger = this.state.error ? <p style={{textAlign: 'center'}}>Ingredients can not be loaded</p> : <Spinner/>;
 
         if (this.state.ingredients) {
             burger = (<Aux><Burger ingredients={this.state.ingredients}/>
