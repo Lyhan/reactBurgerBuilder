@@ -7,14 +7,32 @@ import Spinner from "../../../components/UI/Spinner/Spinner";
 import Input from "../../../components/UI/Input/Input";
 
 class ContactData extends Component {
+    createField(elementType, inputType, placeholder, options) {
+        let elementConfig = {};
+        elementConfig['type'] = inputType ? inputType : null;
+        elementConfig['placeholder'] = placeholder ? placeholder : null;
+        elementConfig['options'] = options ? options : null;
+
+        return {
+            elementType: elementType,
+            elementConfig: elementConfig,
+            value: ''
+        }
+    }
+
     state = {
-        name: '',
-        email: '',
-        address: {
-            street: '',
-            postalCode: ''
+        orderForm: {
+            name: this.createField('input', 'text', 'Yout Name'),
+            street: this.createField('input', 'text', 'Street'),
+            zipCode: this.createField('input', 'text', 'ZIP Code'),
+            country: this.createField('input', 'text', 'Country'),
+            email: this.createField('input', 'email', 'Yout E-Mail'),
+            deliveryMethod: this.createField('select', null, null, [
+                {value: 'fastest', displayValue: 'Fastest'},
+                {value: 'cheapest', displayValue: 'Cheapest'},
+            ])
         },
-        loading:false
+        loading: false
     }
     orderHandler = (event) => {
         event.preventDefault()
@@ -47,14 +65,13 @@ class ContactData extends Component {
     }
 
     render() {
+        // TODO: Output Input element dynamically using state.orderForm
+        // <Input elementType="..." elementConfig="..." value="..."/>
         let form = (<form>
-            <Input inputtype="input" type="text" name="name" placeholder="Your name"/>
-            <Input inputtype="input" type="email" name="email" placeholder="Your email"/>
-            <Input inputtype="input" type="text" name="street" placeholder="Your Street"/>
-            <Input inputtype="input" type="text" name="postal" placeholder="Postal Code"/>
+
             <Button btnType="Success" clicked={this.orderHandler}>ORDER</Button>
         </form>)
-        if (this.state.loading) form = <Spinner/> ;
+        if (this.state.loading) form = <Spinner/>;
         return (
             <div className={classes.ContactData}>
                 <h4>Enter your Contact Data</h4>
